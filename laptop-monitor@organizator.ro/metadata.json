@@ -1,0 +1,8 @@
+{
+  "name": "Disable Laptop Monitor",
+  "description": "Disables the laptop monitor if an external monitor is connected",
+  "uuid": "laptop-monitor@organizator.ro",
+  "shell-version": [
+    "43"
+  ]
+}
