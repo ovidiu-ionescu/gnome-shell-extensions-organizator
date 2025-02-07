@@ -1,6 +1,6 @@
-# Extenstions for Gnome Shell
+# Extensions for Gnome Shell
 
-# laptop-monitor@organizator.ro
+## laptop-monitor@organizator.ro
 
 Turns off the laptop monitor if there is an external monitor connected.
 
