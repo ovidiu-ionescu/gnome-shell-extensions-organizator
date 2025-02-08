@@ -22,7 +22,7 @@ class Indicator extends PanelMenu.Button {
         }));
 
         let item = new PopupMenu.PopupMenuItem(_('Disable laptop monitor'));
-        item.connect('activate', action);
+        item.connect('activate', disableLaptopMonitor);
         this.menu.addMenuItem(item);
     }
 });
@@ -49,10 +49,12 @@ class Extension {
     _addKeybinding() {
         Main.wm.addKeybinding(
             'disable-laptop-monitor',
-            ExtensionUtils.getSettings("org.gnome.shell.extensions.laptop-monitor"),
+            // if the schema is not specified, it uses the content of settings-schema from metadata.json
+            // https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/extensions/sharedInternals.js#L92
+            ExtensionUtils.getSettings(),
             Meta.KeyBindingFlags.NONE,
             Shell.ActionMode.NORMAL,
-            () => action()
+            () => disableLaptopMonitor()
         );
     }
 
@@ -67,7 +69,7 @@ function init(meta) {
 
 const GLib = imports.gi.GLib;
 
-function action() {
+function disableLaptopMonitor() {
   if(imports.ui.main.layoutManager.monitors.length > 1) {
     turnOffSmallestMonitor();
     Main.notify(_('Laptop monitor disabled'));
