@@ -4,3 +4,7 @@ deploy:
   mkdir -p ~/.local/share/gnome-shell/extensions/{{extension_name}}
   cp extension.js metadata.json stylesheet.css ~/.local/share/gnome-shell/extensions/{{extension_name}}/
   pkill -HUP gnome-shell
+
+gnome-version:
+  gnome-shell --version
+

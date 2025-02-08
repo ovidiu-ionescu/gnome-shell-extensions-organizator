@@ -40,14 +40,7 @@ class Indicator extends PanelMenu.Button {
         }));
 
         let item = new PopupMenu.PopupMenuItem(_('Disable laptop monitor'));
-        item.connect('activate', () => {
-            if(imports.ui.main.layoutManager.monitors.length > 1) {
-                turnOffSmallestMonitor();
-                Main.notify(_('Laptop monitor disabled'));
-            } else {
-                Main.notify(_('There is only one monitor active'));
-            }
-        });
+        item.connect('activate', action);
         this.menu.addMenuItem(item);
     }
 });
@@ -75,6 +68,15 @@ function init(meta) {
 }
 
 const GLib = imports.gi.GLib;
+
+function action() {
+  if(imports.ui.main.layoutManager.monitors.length > 1) {
+    turnOffSmallestMonitor();
+    Main.notify(_('Laptop monitor disabled'));
+  } else {
+    Main.notify(_('There is only one monitor active'));
+  }
+}
 
 function turnOffSmallestMonitor() {
     try {
