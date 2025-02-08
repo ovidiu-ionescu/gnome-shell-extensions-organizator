@@ -20,7 +20,7 @@
 
 const GETTEXT_DOMAIN = 'laptop-monitor-extension';
 
-const { GObject, St } = imports.gi;
+const { GObject, St, Meta, Shell } = imports.gi;
 
 const ExtensionUtils = imports.misc.extensionUtils;
 const Main = imports.ui.main;
@@ -55,11 +55,27 @@ class Extension {
     enable() {
         this._indicator = new Indicator();
         Main.panel.addToStatusArea(this._uuid, this._indicator);
+      this._addKeybinding();
     }
 
     disable() {
         this._indicator.destroy();
         this._indicator = null;
+      this._removeKeybinding();
+    }
+
+    _addKeybinding() {
+        Main.wm.addKeybinding(
+            'disable-laptop-monitor',
+            ExtensionUtils.getSettings("org.gnome.shell.extensions.laptop-monitor"),
+            Meta.KeyBindingFlags.NONE,
+            Shell.ActionMode.NORMAL,
+            () => action()
+        );
+    }
+
+    _removeKeybinding() {
+      Main.wm.removeKeybinding('disable-laptop-monitor');
     }
 }
 

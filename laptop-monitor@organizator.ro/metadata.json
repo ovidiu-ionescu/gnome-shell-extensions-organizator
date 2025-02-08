@@ -4,5 +4,9 @@
   "uuid": "laptop-monitor@organizator.ro",
   "shell-version": [
     "43"
-  ]
+  ],
+  "keybindings": {
+    "disable-laptop-monitor": "<Super><Shift>l"
+  },
+  "settings-schema": "org.gnome.shell.extensions.laptop-monitor"
 }

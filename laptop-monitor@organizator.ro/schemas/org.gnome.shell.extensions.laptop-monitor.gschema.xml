@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.laptop-monitor" path="/org/gnome/shell/extensions/laptop-monitor/">
+    <key name="disable-laptop-monitor" type="as">
+      <default>['&lt;Super&gt;&lt;Shift&gt;l']</default>
+      <summary>Disable Laptop Monitor</summary>
+      <description>Keyboard shortcut to turn off the laptop monitor.</description>
+    </key>
+  </schema>
+</schemalist>
+

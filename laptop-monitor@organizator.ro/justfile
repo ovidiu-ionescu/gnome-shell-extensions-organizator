@@ -1,10 +1,16 @@
 extension_name := 'laptop-monitor@organizator.ro'
 
-deploy:
+deploy: compile
   mkdir -p ~/.local/share/gnome-shell/extensions/{{extension_name}}
-  cp extension.js metadata.json stylesheet.css ~/.local/share/gnome-shell/extensions/{{extension_name}}/
+  cp -r extension.js metadata.json stylesheet.css schemas ~/.local/share/gnome-shell/extensions/{{extension_name}}/
   pkill -HUP gnome-shell
 
 gnome-version:
   gnome-shell --version
 
+compile:
+  glib-compile-schemas schemas
+
+settings:
+  gsettings --schemadir schemas get org.gnome.shell.extensions.laptop-monitor disable-laptop-monitor
+  gsettings --schemadir ~/.local/share/gnome-shell/extensions/{{extension_name}}/schemas get org.gnome.shell.extensions.laptop-monitor disable-laptop-monitor
