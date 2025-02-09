@@ -116,7 +116,7 @@ function turnOffSmallestMonitor() {
         const [cmdSuccess, cmdOut, cmdErr] = 
             GLib.spawn_command_line_sync(`xrandr --output ${smallestMonitor} --off`);
         
-        if (cmdErr) {
+        if (!cmdSuccess) {
             throw new Error(`Disable failed: ${new TextDecoder().decode(cmdErr)}`);
         }
 

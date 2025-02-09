@@ -20,6 +20,9 @@ clean:
   -rm laptop-monitor@organizator.ro.shell-extension.zip
   -rm schemas/gschemas.compiled
 
+log:
+  journalctl /usr/bin/gnome-shell -f
+
 # display the version of gnome-shell
 gnome-version:
   gnome-shell --version
