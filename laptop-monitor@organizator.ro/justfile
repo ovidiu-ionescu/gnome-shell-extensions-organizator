@@ -1,16 +1,36 @@
 extension_name := 'laptop-monitor@organizator.ro'
 
-deploy: compile
+deploy:
+  gnome-extensions pack -f
+  gnome-extensions install -f {{extension_name}}.shell-extension.zip
+  pkill -HUP gnome-shell
+
+# compile the schemas
+compile:
+  glib-compile-schemas schemas
+
+# pack the extension, automatically compiles schemas
+pack:
+  gnome-extensions pack
+
+uninstall:
+  gnome-extensions uninstall {{extension_name}}
+
+clean:
+  -rm laptop-monitor@organizator.ro.shell-extension.zip
+  -rm schemas/gschemas.compiled
+
+# display the version of gnome-shell
+gnome-version:
+  gnome-shell --version
+
+manual-deploy: compile
   mkdir -p ~/.local/share/gnome-shell/extensions/{{extension_name}}
   cp -r extension.js metadata.json stylesheet.css schemas ~/.local/share/gnome-shell/extensions/{{extension_name}}/
   pkill -HUP gnome-shell
 
-gnome-version:
-  gnome-shell --version
-
-compile:
-  glib-compile-schemas schemas
-
+# try to read a value from the schema, if it fails, the schema is not compiled
 settings:
   gsettings --schemadir schemas get org.gnome.shell.extensions.laptop-monitor disable-laptop-monitor
   gsettings --schemadir ~/.local/share/gnome-shell/extensions/{{extension_name}}/schemas get org.gnome.shell.extensions.laptop-monitor disable-laptop-monitor
+

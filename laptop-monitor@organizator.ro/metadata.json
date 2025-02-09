@@ -1,10 +1,11 @@
 {
   "name": "Disable Laptop Monitor",
-  "description": "Disables the laptop monitor if an external monitor is connected",
+  "description": "Disables the laptop monitor if an external monitor is connected. Keyboard shortcuts: Super+Shift+L and Alt+F23",
   "uuid": "laptop-monitor@organizator.ro",
   "shell-version": [
     "43"
   ],
   "settings-schema": "org.gnome.shell.extensions.laptop-monitor",
-  "url": "https://github.com/ovidiu-ionescu/gnome-shell-extensions-organizator"
+  "url": "https://github.com/ovidiu-ionescu/gnome-shell-extensions-organizator",
+  "version": 1
 }
