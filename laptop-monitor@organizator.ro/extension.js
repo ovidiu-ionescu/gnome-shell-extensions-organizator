@@ -56,10 +56,22 @@ class Extension {
             Shell.ActionMode.NORMAL,
             () => disableLaptopMonitor()
         );
+        Main.wm.addKeybinding(
+            'start-wezterm',
+            // if the schema is not specified, it uses the content of settings-schema from metadata.json
+            // https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/extensions/sharedInternals.js#L92
+            ExtensionUtils.getSettings(),
+            Meta.KeyBindingFlags.NONE,
+            Shell.ActionMode.NORMAL,
+            () => {
+                GLib.spawn_command_line_async('wezterm');
+            }
+        );
     }
 
     _removeKeybinding() {
       Main.wm.removeKeybinding('disable-laptop-monitor');
+      Main.wm.removeKeybinding('start-wezterm');
     }
 }
 

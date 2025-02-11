@@ -6,6 +6,11 @@
       <summary>Disable Laptop Monitor</summary>
       <description>Keyboard shortcut to turn off the laptop monitor.</description>
     </key>
+    <key name="start-wezterm" type="as">
+      <default>['&lt;Alt&gt;F24']</default>
+      <summary>Start Wezterm</summary>
+      <description>Keyboard shortcut to start Wezterm.</description>
+    </key>
   </schema>
 </schemalist>
 
