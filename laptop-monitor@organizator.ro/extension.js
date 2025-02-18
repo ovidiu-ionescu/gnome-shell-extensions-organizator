@@ -31,6 +31,9 @@ class Indicator extends PanelMenu.Button {
         let item = new PopupMenu.PopupMenuItem(_('Disable laptop monitor'));
         item.connect('activate', disableLaptopMonitor);
         this.menu.addMenuItem(item);
+        let item2 = new PopupMenu.PopupMenuItem(_('Start wezterm'));
+        item2.connect('activate', startWeterm);
+        this.menu.addMenuItem(item2);
     }
 });
 
@@ -84,9 +87,7 @@ export default class MyExtension extends Extension {
             this._settings,
             Meta.KeyBindingFlags.NONE,
             Shell.ActionMode.NORMAL,
-            () => {
-                GLib.spawn_command_line_async('wezterm');
-            }
+            startWeterm
         );
     }
 
@@ -157,3 +158,6 @@ function turnOffSmallestMonitor() {
     }
 }
 
+function startWeterm() {
+    GLib.spawn_command_line_async('wezterm');
+}
