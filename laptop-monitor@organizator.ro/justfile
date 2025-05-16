@@ -5,6 +5,10 @@ deploy:
   gnome-extensions install -f {{extension_name}}.shell-extension.zip
   pkill -HUP gnome-shell
 
+# the very first time you deploy, you also need to enable the extension
+enable:
+  gnome-extensions enable {{extension_name}}
+
 # compile the schemas
 compile:
   glib-compile-schemas schemas
