@@ -2,14 +2,20 @@
 
 const GETTEXT_DOMAIN = 'laptop-monitor-extension';
 
-const { GObject, St, Meta, Shell } = imports.gi;
+//const { GObject, St, Meta, Shell } = imports.gi;
+import GObject from 'gi://GObject';
+import St from 'gi://St';
+import Meta from 'gi://Meta';
+import Shell from 'gi://Shell';
+import GLib from 'gi://GLib';
 
-const ExtensionUtils = imports.misc.extensionUtils;
-const Main = imports.ui.main;
-const PanelMenu = imports.ui.panelMenu;
-const PopupMenu = imports.ui.popupMenu;
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import * as gettext from 'gettext';
+import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 
-const _ = ExtensionUtils.gettext;
+let _;
 
 const Indicator = GObject.registerClass(
 class Indicator extends PanelMenu.Button {
@@ -27,16 +33,25 @@ class Indicator extends PanelMenu.Button {
     }
 });
 
-class Extension {
-    constructor(uuid) {
-        this._uuid = uuid;
+export default class MyExtension extends Extension {
+    constructor(metadata) {
+      super(metadata);
+    }
 
-        ExtensionUtils.initTranslations(GETTEXT_DOMAIN);
+    _initTranslations() {
+      const localeDir = GLib.build_filenamev([this.dir.get_path(), 'locale']);
+      const domain = this.metadata['gettext-domain'] || GETTEXT_DOMAIN;
+      if (domain && GLib.file_test(localeDir, GLib.FileTest.IS_DIR)) {
+        gettext.bindtextdomain(domain, localeDir);
+      }
+      _ = gettext.gettext;
     }
 
     enable() {
-        this._indicator = new Indicator();
-        Main.panel.addToStatusArea(this._uuid, this._indicator);
+      this._initTranslations();  
+      this._indicator = new Indicator();
+
+        Main.panel.addToStatusArea(this.metadata.uuid, this._indicator);
       this._addKeybinding();
     }
 
@@ -75,11 +90,6 @@ class Extension {
     }
 }
 
-function init(meta) {
-    return new Extension(meta.uuid);
-}
-
-const GLib = imports.gi.GLib;
 
 function disableLaptopMonitor() {
   if(imports.ui.main.layoutManager.monitors.length > 1) {
