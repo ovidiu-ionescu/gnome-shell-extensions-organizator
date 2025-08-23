@@ -8,6 +8,7 @@ import St from 'gi://St';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
@@ -38,6 +39,10 @@ export default class MyExtension extends Extension {
       super(metadata);
     }
 
+     getSettings() {
+       return super.getSettings(this.metadata['settings-schema']);
+     }
+
     _initTranslations() {
       const localeDir = GLib.build_filenamev([this.dir.get_path(), 'locale']);
       const domain = this.metadata['gettext-domain'] || GETTEXT_DOMAIN;
@@ -50,6 +55,7 @@ export default class MyExtension extends Extension {
     enable() {
       this._initTranslations();  
       this._indicator = new Indicator();
+      this._settings = this.getSettings();
 
         Main.panel.addToStatusArea(this.metadata.uuid, this._indicator);
       this._addKeybinding();
@@ -66,7 +72,7 @@ export default class MyExtension extends Extension {
             'disable-laptop-monitor',
             // if the schema is not specified, it uses the content of settings-schema from metadata.json
             // https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/extensions/sharedInternals.js#L92
-            ExtensionUtils.getSettings(),
+            this._settings,
             Meta.KeyBindingFlags.NONE,
             Shell.ActionMode.NORMAL,
             () => disableLaptopMonitor()
@@ -75,7 +81,7 @@ export default class MyExtension extends Extension {
             'start-wezterm',
             // if the schema is not specified, it uses the content of settings-schema from metadata.json
             // https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/extensions/sharedInternals.js#L92
-            ExtensionUtils.getSettings(),
+            this._settings,
             Meta.KeyBindingFlags.NONE,
             Shell.ActionMode.NORMAL,
             () => {
