@@ -7,7 +7,7 @@
       <description>Keyboard shortcut to turn off the laptop monitor.</description>
     </key>
     <key name="start-wezterm" type="as">
-      <default>['&lt;Alt&gt;F24']</default>
+      <default>['&lt;Alt&gt;F24', '&lt;Super&gt;&lt;Shift&gt;w']</default>
       <summary>Start Wezterm</summary>
       <description>Keyboard shortcut to start Wezterm.</description>
     </key>
