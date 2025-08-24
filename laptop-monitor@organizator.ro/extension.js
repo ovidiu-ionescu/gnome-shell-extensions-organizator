@@ -2,7 +2,6 @@
 
 const GETTEXT_DOMAIN = 'laptop-monitor-extension';
 
-//const { GObject, St, Meta, Shell } = imports.gi;
 import GObject from 'gi://GObject';
 import St from 'gi://St';
 import Meta from 'gi://Meta';
@@ -31,9 +30,14 @@ class Indicator extends PanelMenu.Button {
         let item = new PopupMenu.PopupMenuItem(_('Disable laptop monitor'));
         item.connect('activate', disableLaptopMonitor);
         this.menu.addMenuItem(item);
-        let item2 = new PopupMenu.PopupMenuItem(_('Start wezterm'));
-        item2.connect('activate', startWeterm);
-        this.menu.addMenuItem(item2);
+
+        item = new PopupMenu.PopupMenuItem(_('Start wezterm'));
+        item.connect('activate', startWeterm);
+        this.menu.addMenuItem(item);
+
+        item = new PopupMenu.PopupMenuItem(_('Organizator Wezterm'));
+        item.connect('activate', startOrganizatorWezterm);
+        this.menu.addMenuItem(item);
     }
 });
 
@@ -99,7 +103,7 @@ export default class MyExtension extends Extension {
 
 
 function disableLaptopMonitor() {
-  if(imports.ui.main.layoutManager.monitors.length > 1) {
+  if(Main.layoutManager.monitors.length > 1) {
     turnOffSmallestMonitor();
     Main.notify(_('Laptop monitor disabled'));
   } else {
@@ -160,4 +164,8 @@ function turnOffSmallestMonitor() {
 
 function startWeterm() {
     GLib.spawn_command_line_async('wezterm');
+}
+
+function startOrganizatorWezterm() {
+    GLib.spawn_command_line_async('wezterm --config-file /home/ovidiu/Projects/organizator-3/DevEnvironment/Tabs/pre-open.lua start');
 }
